@@ -18,17 +18,16 @@ public class JWTService {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    public String generateToken(String username, List<String> roles, String clientId) {
+    public String generateToken(String username, String role) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + 3600000);
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuer("ecommerce-api")
-                .setAudience(clientId)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
-                .claim("roles", roles)
+                .claim("roles", role)
                 .signWith(key)
                 .compact();
     }
